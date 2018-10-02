@@ -2,13 +2,11 @@
   <div id="app-reddit">
     <SortItems @onThePage="changeOnThePage($event)" @sortItems="changeSortItems($event)"></SortItems>
     <Pagination v-if="!errorMess" @pageTo="loadReddit($event)" :numberOfPages="numberOfPages"></Pagination>
-    <v-touch @swipeleft="onSwipeLeft" @swiperight="onSwipeRight">
-      <transition name="swype">
-        <div v-if="!preloader  && !errorMess">
-          <NewsBlock v-for="item in newsList" :obj="item.data" :key="item.data.title"></NewsBlock>
-        </div>
-      </transition>
-    </v-touch>
+    <transition name="swype">
+      <div v-if="!preloader  && !errorMess">
+        <NewsBlock v-for="item in newsList" :obj="item.data" :key="item.data.title"></NewsBlock>
+      </div>
+    </transition>
     <Pagination v-if="!errorMess" @pageTo="loadReddit($event)" :numberOfPages="numberOfPages"></Pagination>
     <Error v-if="errorMess"></Error>
   </div>
@@ -58,14 +56,6 @@ export default {
     },
     changeSortItems: function (event) {
       this.sort = event
-    },
-    onSwipeLeft: function () {
-      if (this.numberOfPages > 1) {
-        this.loadReddit(this.numberOfPages - 1)
-      }
-    },
-    onSwipeRight: function () {
-      this.loadReddit(this.numberOfPages + 1)
     }
   },
   watch: {
